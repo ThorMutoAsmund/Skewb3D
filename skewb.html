@@ -1,0 +1,15 @@
+    <script type="module">
+        import { TwistyPlayer } from "https://cdn.cubing.net/js/cubing/twisty";
+        
+        const player = new TwistyPlayer({
+          puzzle: "skewb",
+          alg: "R U R'",
+          hintFacelets: "none",
+          backView: "top-right",
+          background: "none"
+        });
+        document.body.appendChild(player);
+        
+        // You can also change parameters after you've constructed the player:
+        player.backView = "side-by-side";
+    </script>

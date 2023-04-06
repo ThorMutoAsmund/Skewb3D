@@ -1,0 +1,79 @@
+<script type="module">
+    //import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.151.3/three.min.js';
+    import { Scene,Group,PerspectiveCamera,WebGLRenderer,BoxGeometry,Mesh,MeshBasicMaterial,BufferGeometry,BufferAttribute } from "https://cdn.skypack.dev/three@0.132.2";
+
+    const scene = new Scene();
+    const camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+    const renderer = new WebGLRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+    const group = new Group();
+
+    const a = -1.0;
+    const b = -0.2;
+    const c = 0.2;
+    const d = 1.0;
+    
+    const e = -0.95;
+    const f = 0.0;
+    const g = 0.95;
+
+    addTri(a,a,a, b,a,a, a,b,a,0xff0000);
+    addTri(a,c,a, b,d,a, a,d,a,0xff0000);
+    addTri(c,d,a, d,c,a, d,d,a,0xff0000);
+    addTri(c,a,a, d,a,a, d,b,a,0xff0000);
+    addSqr(e,f,a, f,e,a, g,f,a, f,g,a, 0xff0000)
+
+    function addTri(x1,y1,z1,x2,y2,z2,x3,y3,z3,c)
+    {
+        const geometry = new BufferGeometry();
+
+        var vertices = new Float32Array( [
+            x1,y1,z1,
+            x2,y2,z2,
+            x3,y3,z3
+        ] );
+
+        // itemSize = 3 because there are 3 values (components) per vertex
+        geometry.setAttribute( 'position', new BufferAttribute( vertices, 3 ) );
+        var material = new MeshBasicMaterial( { color: c } );
+        var mesh = new Mesh( geometry, material );
+
+        group.add( mesh );
+    }
+
+    function addSqr(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,c)
+    {
+        const geometry = new BufferGeometry();
+
+        var vertices = new Float32Array( [
+            x1,y1,z1,
+            x2,y2,z2,
+            x4,y4,z4,
+
+            x4,y4,z4,
+            x2,y2,z2,
+            x3,y3,z3,
+        ] );
+
+        // itemSize = 3 because there are 3 values (components) per vertex
+        geometry.setAttribute( 'position', new BufferAttribute( vertices, 3 ) );
+        var material = new MeshBasicMaterial( { color: c } );
+        var mesh = new Mesh( geometry, material );
+
+        group.add( mesh );
+    }
+
+    scene.add(group);
+
+    camera.position.z = 5;
+    function animate() {
+        requestAnimationFrame( animate );
+        group.rotation.x += 0.01;
+        group.rotation.y += 0.01;
+        renderer.render( scene, camera );
+    }
+    animate();
+</script>
